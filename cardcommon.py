@@ -1,5 +1,7 @@
 # Copyright Seeky 2021
 
+from mariopouch import MarioPouchWork
+
 def gsw0ToSeqIndicator(n: int) -> int:
     if n in range(0, 11):
         return 0
@@ -65,3 +67,26 @@ def gsw0ToSeqIndicator(n: int) -> int:
         return 84
     else:
         return 90
+
+def calcRngParams(gsw0: int, items: list[dict], pouch: MarioPouchWork, chanceName: str) -> (int, list[int], list[int]):
+    seq = gsw0ToSeqIndicator(gsw0)
+    rngLimit = 0
+    itemIds = []
+    chanceCache = []
+    for itemId, item in enumerate(items):
+        # Chance must be non-zero, GSW(0) must be high enough, and if this is a one-time
+        # card then it can't be added unless it's unknown
+        if item[chanceName] != 0 and item["cardShopMinGsw0"] <= gsw0 and \
+           (not item["cardShopBlockDuplicate"] or not pouch.checkCardKnown(itemId)):
+            chance = item[chanceName]
+            if seq >= item["cardShopBonusSeq"]:
+                # 10x chance if above certain GSW(0)
+                chance *= 10
+            if pouch.getCardCount(itemId) == 0:
+                # 3x chance if none are in inventory
+                chance *= 3
+            rngLimit += chance
+            chanceCache.append(chance)
+            itemIds.append(itemId)
+
+    return rngLimit, itemIds, chanceCache
