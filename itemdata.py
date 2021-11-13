@@ -2,6 +2,7 @@
 
 from binread import BinaryReader
 from spmcommon import getVersion
+from msgdrv import GlobalText
 
 TABLE_ADDR = {
     "eu0" : 0x803f5f98,
@@ -17,12 +18,16 @@ TABLE_ADDR = {
 def getTable(ram: BinaryReader) -> list[dict]:
     ver = getVersion(ram)
     addr = TABLE_ADDR[ver]
+    globalTxt = GlobalText(ram)
 
     ret = []
     for _ in range(0, 538):
         entry = {}
         itemNameAddr = ram.readatW(addr + 0x0)
         entry["itemName"] = ram.readatS(itemNameAddr)
+        nameMsgAddr = ram.readatW(addr + 0x10)
+        nameMsg = ram.readatS(nameMsgAddr)
+        entry["nameMsg"] = globalTxt.get(nameMsg)
         entry["cardBagChance"] = ram.readatB(addr + 0x20)
         entry["cardShopChance"] = ram.readatB(addr + 0x21)
         entry["cardShopBonusSeq"] = ram.readatH(addr + 0x22)

@@ -1,6 +1,7 @@
 # Copyright Seeky 2021
 
 from mariopouch import MarioPouchWork
+from typing import Tuple
 
 def gsw0ToSeqIndicator(n: int) -> int:
     if n in range(0, 11):
@@ -68,7 +69,7 @@ def gsw0ToSeqIndicator(n: int) -> int:
     else:
         return 90
 
-def calcRngParams(gsw0: int, items: list[dict], pouch: MarioPouchWork, chanceName: str) -> (int, list[int], list[int]):
+def calcRngParams(gsw0: int, items: list[dict], pouch: MarioPouchWork, chanceName: str) -> Tuple[int, list[int], list[int]]:
     seq = gsw0ToSeqIndicator(gsw0)
     rngLimit = 0
     itemIds = []
