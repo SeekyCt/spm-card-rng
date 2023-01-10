@@ -1,10 +1,15 @@
 from binread import BinaryReader
 from spmcommon import getVersion
 
-# TODO: port
 MSGW_ADDR = {
     "eu0" : 0x805adf18,
-    "eu1" : 0x805adf18
+    "eu1" : 0x805adf18,
+    "us0" : 0x8056cf38,
+    "us1" : 0x8056c798,
+    "us2" : 0x8056c918,
+    "jp0" : 0x80542238,
+    "jp1" : 0x80541818,
+    "kr0" : 0x805d79d0
 }
 
 class GlobalText:
