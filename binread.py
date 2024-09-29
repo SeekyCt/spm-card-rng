@@ -11,15 +11,20 @@ class BinaryReader:
         self._f.seek(addr - 0x80000000)
         return self._f.read(size)
 
-    def readatS(self, addr):
+    def readatS_len(self, addr):
+        byte_len = 0
         self._f.seek(addr - 0x80000000)
         strn = bytearray()
         while True:
             c = self._f.read(1)[0]
+            byte_len += 1
             if c == 0:
                 break
             strn.append(c)
-        return strn.decode("shift-jis")
+        return strn.decode("shift-jis"), byte_len
+
+    def readatS(self, addr):
+        return self.readatS_len(addr)[0]
 
     def readatI(self, addr, size):
         return int.from_bytes(self.readat(addr, size), 'big')

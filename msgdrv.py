@@ -25,10 +25,10 @@ class GlobalText:
         workingName = ""
         workingMsg = ""
         for _ in range(count):
-            name = ram.readatS(p)
-            p += len(name) + 1
-            msg = ram.readatS(p)
-            p += len(msg) + 1
+            name, byte_len = ram.readatS_len(p)
+            p += byte_len
+            msg, byte_len = ram.readatS_len(p)
+            p += byte_len
 
             if not name in self.msgDict:
                 self.msgDict[name] = msg
