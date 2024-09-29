@@ -23,7 +23,7 @@ def pad_right(s, l):
     s = str(s)
     return "".join((s, ' ' * (l - len(s))))
 
-ram = BinaryReader("test1.raw")
+ram = BinaryReader("ram.raw")
 items = getTable(ram)
 makedirs("out", exist_ok=True)
 
